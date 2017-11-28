@@ -51,7 +51,12 @@ class Order extends React.Component {
     return (
       <div className="order-wrap">
         <h2>Your Order</h2>
-
+        {/*
+        if I set both numbers down below to 5000, the two classes will be there for 5 seconds(during which time, compoennt is locked), 
+        but leave/enter happens immediately
+        but if I then set css transition time to equal to that time, it will look like I am using that time fully for some animation
+        eventually those two classes will be gone, and the original styling will kick back in
+         */}
         <CSSTransitionGroup
           className="order"
           component="ul"

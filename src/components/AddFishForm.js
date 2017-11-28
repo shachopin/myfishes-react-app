@@ -12,7 +12,7 @@ class AddFishForm extends React.Component {
       image: this.image.value,
     }
     this.props.addFish(fish);
-    this.fishForm.reset();
+    this.fishForm.reset(); //even without the above, just run this reset() statement, view also changed immediately, but it's directlying changing the DOM
   }
 
   render() {

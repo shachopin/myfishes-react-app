@@ -6,29 +6,34 @@ class Inventory extends React.Component {
   constructor() {
     super();
     this.renderInventory = this.renderInventory.bind(this);
-    this.renderLogin = this.renderLogin.bind(this);
-    this.authenticate = this.authenticate.bind(this);
-    this.logout = this.logout.bind(this);
+    //this.renderLogin = this.renderLogin.bind(this); //not really needed 
+    //this.authenticate = this.authenticate.bind(this); //not really needed
+    //this.logout = this.logout.bind(this); //not really needed
+    //needed when you say onClick = {this.logout}
+    //not needed when you say onClick = {() => this.logout()}
     this.authHandler = this.authHandler.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    //this.handleChange = this.handleChange.bind(this); //not really needed
     this.state = {
       uid: null,
       owner: null
     }
   }
 
-  componentDidMount() {
+  componentDidMount() { //without this, every time you refresh the page, you have to re-login
     base.onAuth((user) => {
       if(user) {
         this.authHandler(null, { user });
       }
     });
-  }
+  }  //the login button will show quickly in a flash first time page rendered, 
+  //but then it will re-authenticate yourself 
+  //using some token in your localStorage
+  //then it will trigger rerendering and show the inventory page
 
   handleChange(e, key) {
     const fish = this.props.fishes[key];
     // take a copy of that fish and update it with the new data
-    const updatedFish = {
+    const updatedFish = { //notice all fields have a name attribute
       ...fish,
       [e.target.name]: e.target.value
     }
@@ -46,7 +51,7 @@ class Inventory extends React.Component {
   }
 
   authHandler(err, authData)  {
-    console.log(authData);
+    console.log(authData); //authData contains pass loggedin userid and bio info
     if (err) {
       console.error(err);
       return;
@@ -106,7 +111,7 @@ class Inventory extends React.Component {
   }
 
   render() {
-    const logout = <button onClick={this.logout}>Log Out!</button>;
+    const logout = <button onClick={() => this.logout()}>Log Out!</button>;
 
     // check if they are no logged in at all
     if(!this.state.uid) {

@@ -13,7 +13,7 @@ class StorePicker extends React.Component {
     const storeId = this.storeInput.value;
     console.log(`Going to ${storeId}`)
     // second we're going to transition from / to /store/:storeId
-    this.context.router.transitionTo(`/store/${storeId}`);
+    this.context.router.transitionTo(`/store/${storeId}`); //notice this part - surface the router
   }
 
   render() {
@@ -28,7 +28,7 @@ class StorePicker extends React.Component {
   }
 }
 
-StorePicker.contextTypes = {
+StorePicker.contextTypes = { //notice this part - surface the router
   router: React.PropTypes.object
 }
 

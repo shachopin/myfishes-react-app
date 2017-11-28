@@ -48,12 +48,13 @@ class App extends React.Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
+    console.log("Im here in componentWillUpdate", {nextProps, nextState}); //even the firebase data changes, still will rerender, so this will run
     localStorage.setItem(`order-${this.props.params.storeId}`, JSON.stringify(nextState.order));
   }
 
   addFish(fish) {
     // update our state
-    const fishes = {...this.state.fishes};
+    const fishes = {...this.state.fishes}; //this.state.fishes is object
     // add in our new fish
     const timestamp = Date.now();
     fishes[`fish-${timestamp}`] = fish;
@@ -69,7 +70,7 @@ class App extends React.Component {
 
   removeFish = (key) => {
     const fishes = {...this.state.fishes};
-    fishes[key] = null;
+    fishes[key] = null; //do this as firebase requires it
     this.setState({ fishes });
   };
 
@@ -83,14 +84,14 @@ class App extends React.Component {
     // take a copy of our state
     const order = {...this.state.order};
     // update or add the new number of fish ordered
-    order[key] = order[key] + 1 || 1;
+    order[key] = order[key] + 1 || 1; //undefined + 1 => NaN which is falsey
     // update our state
     this.setState({ order });
   }
 
   removeFromOrder(key) {
     const order = {...this.state.order};
-    delete order[key];
+    delete order[key]; //do delete because it's not using firebase, but localStorage
     this.setState({ order });
   }
 
@@ -105,12 +106,12 @@ class App extends React.Component {
                 .keys(this.state.fishes)
                 .map(key => <Fish key={key} index={key} details={this.state.fishes[key]} addToOrder={this.addToOrder}/>)
             }
+            {/*you cannot directly use this.props.key, reserved for React to use, hence passing down as index*/}
           </ul>
         </div>
         <Order
           fishes={this.state.fishes}
           order={this.state.order}
-          params={this.props.params}
           removeFromOrder={this.removeFromOrder}
         />
         <Inventory
